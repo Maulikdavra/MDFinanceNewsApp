@@ -39,7 +39,7 @@ with col1:
             elif company not in st.session_state.selected_companies:
                 st.session_state.selected_companies.append(company)
                 st.success(f"Added {company} to your watchlist!")
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.warning(f"{company} is already in your watchlist!")
 
@@ -47,7 +47,7 @@ with col2:
     if st.button("Clear All Companies"):
         st.session_state.selected_companies = []
         st.success("Cleared all companies!")
-        st.experimental_rerun()
+        st.rerun()
 
 # Display selected companies
 if st.session_state.selected_companies:
@@ -59,7 +59,7 @@ if st.session_state.selected_companies:
             if st.button(f"Remove", key=f"remove_{idx}"):
                 st.session_state.selected_companies.pop(idx)
                 st.success(f"Removed {company} from your watchlist!")
-                st.experimental_rerun()
+                st.rerun()
 
 # News category filter
 if st.session_state.selected_companies:
@@ -96,14 +96,21 @@ if st.session_state.selected_companies:
                             st.markdown(f"**Source:** {article['source']}")
                             st.markdown(f"**Published:** {article['publishedAt']}")
                             st.markdown("**Summary:**")
-                            summary = ai_analyzer.summarize_news(article['description'])
-                            st.write(summary)
+                            try:
+                                summary = ai_analyzer.summarize_news(article['description'])
+                                st.write(summary)
+                            except Exception as e:
+                                st.warning("Could not generate summary. Using original description.")
+                                st.write(article['description'])
 
                         with col2:
-                            sentiment = ai_analyzer.analyze_sentiment(article['description'])
-                            st.markdown("**Sentiment Analysis:**")
-                            st.progress(sentiment['confidence'])
-                            st.markdown(f"Rating: {'⭐' * sentiment['rating']}")
+                            try:
+                                sentiment = ai_analyzer.analyze_sentiment(article['description'])
+                                st.markdown("**Sentiment Analysis:**")
+                                st.progress(sentiment['confidence'])
+                                st.markdown(f"Rating: {'⭐' * sentiment['rating']}")
+                            except Exception as e:
+                                st.info("Sentiment analysis unavailable")
 
                         if article['url']:
                             st.markdown(f"[Read full article]({article['url']})")
