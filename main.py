@@ -14,7 +14,7 @@ st.set_page_config(
 with open('styles/custom.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-# Initialize session state
+# Initialize session state for companies
 if 'selected_companies' not in st.session_state:
     st.session_state.selected_companies = []
 
@@ -28,72 +28,87 @@ st.title("📰 AI-Powered News Aggregator")
 st.markdown("### Stay informed about your favorite companies")
 
 # Company selection
+company = st.text_input("Enter a company name", key="company_input")
 col1, col2 = st.columns([2, 1])
 
 with col1:
-    company = st.text_input("Enter a company name", key="company_input")
-    if st.button("Add Company") and company and len(st.session_state.selected_companies) < 5:
-        if company not in st.session_state.selected_companies:
-            st.session_state.selected_companies.append(company)
+    if st.button("Add Company", key="add_company"):
+        if company.strip():  # Check if company name is not empty
+            if len(st.session_state.selected_companies) >= 5:
+                st.warning("Maximum 5 companies can be added. Please remove some to add more.")
+            elif company not in st.session_state.selected_companies:
+                st.session_state.selected_companies.append(company)
+                st.success(f"Added {company} to your watchlist!")
+                st.experimental_rerun()
+            else:
+                st.warning(f"{company} is already in your watchlist!")
 
 with col2:
     if st.button("Clear All Companies"):
         st.session_state.selected_companies = []
+        st.success("Cleared all companies!")
+        st.experimental_rerun()
 
 # Display selected companies
-st.markdown("### Selected Companies")
-company_cols = st.columns(5)
-for idx, company in enumerate(st.session_state.selected_companies):
-    with company_cols[idx]:
-        st.markdown(f"**{company}**")
-        if st.button(f"Remove {company}", key=f"remove_{idx}"):
-            st.session_state.selected_companies.remove(company)
-            st.experimental_rerun()
+if st.session_state.selected_companies:
+    st.markdown("### Selected Companies")
+    cols = st.columns(len(st.session_state.selected_companies))
+    for idx, company in enumerate(st.session_state.selected_companies):
+        with cols[idx]:
+            st.markdown(f"**{company}**")
+            if st.button(f"Remove", key=f"remove_{idx}"):
+                st.session_state.selected_companies.pop(idx)
+                st.success(f"Removed {company} from your watchlist!")
+                st.experimental_rerun()
 
 # News category filter
-category = st.selectbox(
-    "Filter by Category",
-    ["All", "Technology", "Market", "Press Releases"]
-)
-
-# Fetch and display news
 if st.session_state.selected_companies:
+    category = st.selectbox(
+        "Filter by Category",
+        ["All", "Technology", "Market", "Press Releases"]
+    )
+
+    # Fetch and display news
     st.markdown("### Latest News")
-    
+
     for company in st.session_state.selected_companies:
         st.markdown(f"#### News for {company}")
-        
+
         try:
-            news_articles = news_fetcher.fetch_news(company)
-            
-            if category != "All":
-                news_articles = [
-                    article for article in news_articles 
-                    if ai_analyzer.categorize_news(article['title'])['category'] == category
-                ]
-            
-            for article in news_articles:
-                with st.expander(article['title']):
-                    col1, col2 = st.columns([3, 1])
-                    
-                    with col1:
-                        st.markdown(f"**Source:** {article['source']}")
-                        st.markdown(f"**Published:** {article['publishedAt']}")
-                        st.markdown("**Summary:**")
-                        summary = ai_analyzer.summarize_news(article['description'])
-                        st.write(summary)
-                        
-                    with col2:
-                        sentiment = ai_analyzer.analyze_sentiment(article['description'])
-                        st.markdown("**Sentiment Analysis:**")
-                        st.progress(sentiment['confidence'])
-                        st.markdown(f"Rating: {'⭐' * sentiment['rating']}")
-                    
-                    if article['url']:
-                        st.markdown(f"[Read full article]({article['url']})")
-        
+            with st.spinner(f'Fetching news for {company}...'):
+                news_articles = news_fetcher.fetch_news(company)
+
+                if category != "All":
+                    news_articles = [
+                        article for article in news_articles 
+                        if ai_analyzer.categorize_news(article['title'])['category'] == category
+                    ]
+
+                if not news_articles:
+                    st.info(f"No {category.lower() if category != 'All' else ''} news found for {company}")
+                    continue
+
+                for article in news_articles:
+                    with st.expander(article['title']):
+                        col1, col2 = st.columns([3, 1])
+
+                        with col1:
+                            st.markdown(f"**Source:** {article['source']}")
+                            st.markdown(f"**Published:** {article['publishedAt']}")
+                            st.markdown("**Summary:**")
+                            summary = ai_analyzer.summarize_news(article['description'])
+                            st.write(summary)
+
+                        with col2:
+                            sentiment = ai_analyzer.analyze_sentiment(article['description'])
+                            st.markdown("**Sentiment Analysis:**")
+                            st.progress(sentiment['confidence'])
+                            st.markdown(f"Rating: {'⭐' * sentiment['rating']}")
+
+                        if article['url']:
+                            st.markdown(f"[Read full article]({article['url']})")
+
         except Exception as e:
             st.error(f"Error fetching news for {company}: {str(e)}")
-
 else:
-    st.info("Please select at least one company to view news.")
+    st.info("Please add a company to view news.")
