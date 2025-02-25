@@ -45,7 +45,12 @@ with col1:
     st.markdown("### Add Company")
     with st.form(key='add_company_form'):
         company = st.text_input("Enter a company name", key="company_input")
-        submit_button = st.form_submit_button(label="Add Company")
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            submit_button = st.form_submit_button(
+                label="Add Company",
+                use_container_width=True
+            )
 
         if submit_button and company.strip():
             if len(st.session_state.selected_companies) >= 5:
@@ -57,11 +62,13 @@ with col1:
             else:
                 st.warning(f"{company} is already in your watchlist!")
 
-    if st.button("Clear All Companies"):
-        st.session_state.selected_companies = []
-        st.session_state.current_company = None
-        st.success("Cleared all companies!")
-        st.rerun()
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("Clear All Companies", type="secondary", use_container_width=True):
+            st.session_state.selected_companies = []
+            st.session_state.current_company = None
+            st.success("Cleared all companies!")
+            st.rerun()
 
     # Display company list with clickable buttons
     if st.session_state.selected_companies:
@@ -82,7 +89,7 @@ with col1:
                     if st.button(
                         "🗑",
                         key=f"remove_{idx}",
-                        help=f"Remove {company}",
+                        help=f"Remove {company}"
                     ):
                         st.session_state.selected_companies.pop(idx)
                         if st.session_state.current_company == company:

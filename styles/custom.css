@@ -51,9 +51,33 @@
     letter-spacing: 0.5px;
 }
 
-.stButton button:hover {
+/* Add Company button styling */
+[data-testid="stForm"] .stButton button {
+    background-color: #f8f9fa;
+    color: #1a237e;
+    border: 1px solid #1a237e;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+}
+
+[data-testid="stForm"] .stButton button:hover {
+    background-color: #1a237e;
+    color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Clear All Companies button styling */
+button[kind="secondary"] {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+    font-size: 0.9rem;
+}
+
+button[kind="secondary"]:hover {
+    background-color: #e9ecef;
+    color: #495057;
 }
 
 /* Company list styling */
@@ -64,6 +88,38 @@
     border-right: none;
     margin-right: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Company item container */
+[data-testid="column"]:first-child .stContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Company button styling */
+[data-testid="column"]:first-child .stContainer .stButton button {
+    text-transform: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    border: 1px solid #e0e0e0;
+}
+
+/* Remove button styling */
+[data-testid="column"] .stButton button[help] {
+    font-size: 1.2rem;
+    width: 40px;
+    padding: 0.5rem;
+    color: #dc3545;
+    background: transparent;
+    border: none;
+    margin-left: -10px;
+}
+
+[data-testid="column"] .stButton button[help]:hover {
+    color: #bd2130;
+    background: rgba(220, 53, 69, 0.1);
 }
 
 /* News article expander styling */
@@ -114,21 +170,6 @@ a:hover {
     border-radius: 8px;
     padding: 0.5rem;
     border-color: #E0E0E0;
-}
-
-/* Remove button styling */
-[data-testid="column"] .stButton button[help] {
-    font-size: 1.2rem;
-    min-width: 40px;
-    padding: 0.25rem;
-    color: #dc3545;
-    background: transparent;
-    border: none;
-}
-
-[data-testid="column"] .stButton button[help]:hover {
-    color: #bd2130;
-    background: rgba(220, 53, 69, 0.1);
 }
 
 /* Form styling */
