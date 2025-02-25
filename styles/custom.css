@@ -49,11 +49,26 @@
     padding: 0.5rem 1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    background-color: #f8f9fa;
+    border: 1px solid #E0E0E0;
+    color: #1a237e;
 }
 
 .stButton button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e9ecef;
+}
+
+/* Primary button styling */
+.stButton button[data-baseweb="button"][kind="primary"] {
+    background-color: #1a237e;
+    color: white;
+    border: none;
+}
+
+.stButton button[data-baseweb="button"][kind="primary"]:hover {
+    background-color: #0d47a1;
 }
 
 /* Company list styling */
@@ -119,11 +134,12 @@ a:hover {
 /* Remove button styling */
 [data-testid="column"] .stButton button[help] {
     font-size: 1.2rem;
-    min-width: 40px;
+    min-width: 32px;
     padding: 0.25rem;
     color: #dc3545;
     background: transparent;
     border: none;
+    margin-left: -0.5rem;
 }
 
 [data-testid="column"] .stButton button[help]:hover {
@@ -137,4 +153,12 @@ a:hover {
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Company list button layout */
+.company-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
