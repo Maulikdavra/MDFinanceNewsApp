@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 class NewsFetcher:
     def __init__(self):
         self.newsapi = NewsApiClient(api_key=os.environ.get('NEWS_API_KEY'))
-    
+
     def fetch_news(self, company_name):
         """
         Fetch news articles for a specific company
@@ -14,16 +14,16 @@ class NewsFetcher:
             # Get news from the last 7 days
             from_date = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
             to_date = datetime.now().strftime('%Y-%m-%d')
-            
+
             articles = self.newsapi.get_everything(
                 q=company_name,
                 from_param=from_date,
                 to=to_date,
                 language='en',
                 sort_by='relevancy',
-                page_size=10
+                page_size=5  # Limit to 5 articles
             )
-            
+
             # Format articles
             formatted_articles = []
             for article in articles['articles']:
@@ -37,8 +37,8 @@ class NewsFetcher:
                         '%Y-%m-%dT%H:%M:%SZ'
                     ).strftime('%Y-%m-%d %H:%M')
                 })
-            
-            return formatted_articles
-            
+
+            return formatted_articles[:5]  # Ensure we never return more than 5
+
         except Exception as e:
             raise Exception(f"Failed to fetch news: {str(e)}")
