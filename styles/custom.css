@@ -139,7 +139,7 @@ a:hover {
     color: #dc3545;
     background: transparent;
     border: none;
-    margin-left: -0.5rem;
+    margin-left: -1rem;  /* Reduced from -0.5rem to -1rem */
 }
 
 [data-testid="column"] .stButton button[help]:hover {
