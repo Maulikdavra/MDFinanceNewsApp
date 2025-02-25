@@ -134,17 +134,39 @@ a:hover {
 /* Remove button styling */
 [data-testid="column"] .stButton button[help] {
     font-size: 1.2rem;
-    min-width: 32px;
+    min-width: 24px;  /* Reduced from 32px */
     padding: 0.25rem;
     color: #dc3545;
     background: transparent;
     border: none;
-    margin-left: -1.5rem;  /* Further reduced spacing */
+    margin-left: -2rem;  /* Further reduced spacing */
 }
 
 [data-testid="column"] .stButton button[help]:hover {
     color: #bd2130;
     background: rgba(220, 53, 69, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    [data-testid="column"] {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0 !important;
+    }
+
+    [data-testid="column"] .stButton {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure buttons stay in one line */
+    [data-testid="column"] .stButton button {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 /* Form styling */
@@ -161,16 +183,4 @@ a:hover {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    [data-testid="column"] {
-        flex-direction: row !important;
-        align-items: center !important;
-    }
-
-    [data-testid="column"] .stButton {
-        margin: 0;
-    }
 }

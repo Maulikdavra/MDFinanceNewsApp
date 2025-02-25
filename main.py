@@ -68,8 +68,8 @@ with col1:
         st.markdown("### Your Companies")
         for idx, company in enumerate(st.session_state.selected_companies):
             with st.container():
-                # Use a wider ratio for the company button column to prevent wrapping
-                btn_col, remove_col = st.columns([6, 1])
+                # Use a much wider ratio for the company button column
+                btn_col, remove_col = st.columns([8, 1])
                 with btn_col:
                     if st.button(
                         company,
@@ -90,6 +90,7 @@ with col1:
                             st.session_state.current_company = None
                         st.success(f"Removed {company} from your watchlist!")
                         st.rerun()
+
     else:
         st.info("Add companies to your watchlist to view their news")
 
