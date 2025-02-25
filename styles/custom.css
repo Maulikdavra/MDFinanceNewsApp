@@ -58,6 +58,8 @@
     border: 1px solid #1a237e;
     font-size: 0.9rem;
     padding: 0.4rem 0.8rem;
+    height: 38px;
+    min-width: 200px;
 }
 
 [data-testid="stForm"] .stButton button:hover {
@@ -73,6 +75,8 @@ button[kind="secondary"] {
     color: #6c757d;
     border: 1px solid #6c757d;
     font-size: 0.9rem;
+    height: 38px;
+    min-width: 200px;
 }
 
 button[kind="secondary"]:hover {
@@ -104,13 +108,16 @@ button[kind="secondary"]:hover {
     padding: 0.5rem 1rem;
     margin: 0;
     border: 1px solid #e0e0e0;
+    height: 38px;
+    width: 100%;
 }
 
 /* Remove button styling */
 [data-testid="column"] .stButton button[help] {
     font-size: 1.2rem;
     width: 40px;
-    padding: 0.5rem;
+    height: 38px;
+    padding: 0;
     color: #dc3545;
     background: transparent;
     border: none;
