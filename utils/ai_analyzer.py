@@ -4,14 +4,11 @@ import json
 
 class AIAnalyzer:
     def __init__(self):
-        # Initialize OpenAI client with error handling
         api_key = os.environ.get('OPENAI_API_KEY')
         if not api_key:
             raise ValueError("OpenAI API key not found in environment variables")
         self.client = OpenAI(api_key=api_key)
-        # the newest OpenAI model is "gpt-4o" which was released May 13, 2024.
-        # do not change this unless explicitly requested by the user
-        self.model = "gpt-4o"
+        self.model = "gpt-4"  # Using standard GPT-4 model
 
     def summarize_news(self, text):
         """
@@ -21,12 +18,10 @@ class AIAnalyzer:
             return "No content available to summarize."
 
         try:
-            # Clean and prepare the text
             cleaned_text = text.strip()
             if not cleaned_text:
                 return "No content available to summarize."
 
-            # Make API call with better error handling
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
@@ -42,15 +37,14 @@ class AIAnalyzer:
                 temperature=0.7
             )
 
-            # Verify response structure
             if not response.choices or not response.choices[0].message:
                 return "Error: Unable to generate summary"
 
             return response.choices[0].message.content.strip()
 
         except Exception as e:
-            print(f"Error in summarize_news: {str(e)}")  # Debug log
-            return "Unable to generate summary at this time."
+            print(f"Error in summarize_news: {str(e)}")
+            return str(e) if str(e) else "Unable to generate summary at this time."
 
     def categorize_news(self, text):
         """
@@ -75,12 +69,10 @@ class AIAnalyzer:
             )
 
             result = json.loads(response.choices[0].message.content)
-            if 'category' not in result:
-                return {"category": "Technology"}
-            return result
+            return result if 'category' in result else {"category": "Technology"}
 
         except Exception as e:
-            print(f"Error in categorize_news: {str(e)}")  # Debug log
+            print(f"Error in categorize_news: {str(e)}")
             return {"category": "Technology"}
 
     def analyze_sentiment(self, text):
@@ -114,5 +106,5 @@ class AIAnalyzer:
             }
 
         except Exception as e:
-            print(f"Error in analyze_sentiment: {str(e)}")  # Debug log
+            print(f"Error in analyze_sentiment: {str(e)}")
             return {"rating": 3, "confidence": 0.5}
