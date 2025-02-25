@@ -1,19 +1,43 @@
 /* Main container styling */
 .main {
     padding: 2rem;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Header styling */
-.stTitle {
-    color: #1E1E1E;
-    font-weight: 700;
+.header {
+    text-align: center;
     margin-bottom: 2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #1a237e, #0d47a1);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 /* Input fields styling */
 .stTextInput input {
     border-radius: 8px;
     border: 1px solid #E0E0E0;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.stTextInput input:focus {
+    border-color: #1a237e;
+    box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
 }
 
 /* Button styling */
@@ -22,19 +46,24 @@
     font-weight: 600;
     transition: all 0.3s ease;
     margin: 0.25rem 0;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .stButton button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Company list styling */
-.stMarkdown div p {
-    padding: 0.5rem;
-    border-radius: 6px;
-    background-color: #F8F9FA;
-    margin-bottom: 0.5rem;
+[data-testid="column"]:first-child {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-right: none;
+    margin-right: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* News article expander styling */
@@ -45,11 +74,17 @@
     border-radius: 8px;
     padding: 1rem;
     margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.streamlit-expanderHeader:hover {
+    background-color: #EDF2F7;
 }
 
 /* Progress bar styling */
 .stProgress > div > div {
-    background-color: #FF4B4B;
+    background: linear-gradient(90deg, #1a237e, #0d47a1);
+    border-radius: 8px;
 }
 
 /* Alert/Info message styling */
@@ -57,33 +92,49 @@
     padding: 1rem;
     border-radius: 8px;
     margin: 1rem 0;
-}
-
-/* Selectbox styling */
-.stSelectbox select {
-    border-radius: 8px;
-    padding: 0.5rem;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 /* Link styling */
 a {
-    color: #FF4B4B;
+    color: #1a237e;
     text-decoration: none;
     font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 a:hover {
+    color: #0d47a1;
     text-decoration: underline;
 }
 
-/* Company list column styling */
-[data-testid="column"]:first-child {
-    border-right: 1px solid #E0E0E0;
-    padding-right: 1rem;
+/* Category selector styling */
+.stSelectbox select {
+    border-radius: 8px;
+    padding: 0.5rem;
+    border-color: #E0E0E0;
 }
 
 /* Remove button styling */
-[data-testid="column"] .stButton button:last-child {
+[data-testid="column"] .stButton button[help] {
+    font-size: 1.2rem;
     min-width: 40px;
-    padding: 0;
+    padding: 0.25rem;
+    color: #dc3545;
+    background: transparent;
+    border: none;
+}
+
+[data-testid="column"] .stButton button[help]:hover {
+    color: #bd2130;
+    background: rgba(220, 53, 69, 0.1);
+}
+
+/* Form styling */
+[data-testid="stForm"] {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

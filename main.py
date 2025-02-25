@@ -5,14 +5,19 @@ from utils.ai_analyzer import AIAnalyzer
 
 # Page configuration
 st.set_page_config(
-    page_title="AI News Aggregator",
-    page_icon="📰",
+    page_title="MDFinance",
+    page_icon="📈",
     layout="wide"
 )
 
 # Custom CSS
 with open('styles/custom.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+# Font Awesome integration
+st.markdown("""
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    """, unsafe_allow_html=True)
 
 # Initialize session state
 if 'selected_companies' not in st.session_state:
@@ -26,18 +31,23 @@ def init_classes():
 news_fetcher, ai_analyzer = init_classes()
 
 # Header
-st.title("📰 AI-Powered News Aggregator")
-st.markdown("### Stay informed about your favorite companies")
+st.markdown("""
+    <div class="header">
+        <h1>📈 MDFinance</h1>
+        <p class="subtitle">Your AI-Powered Financial News Hub</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Create two columns: left for company list, right for news
 col1, col2 = st.columns([1, 3])
 
 with col1:
     st.markdown("### Add Company")
-    company = st.text_input("Enter a company name", key="company_input")
+    with st.form(key='add_company_form'):
+        company = st.text_input("Enter a company name", key="company_input")
+        submit_button = st.form_submit_button(label="Add Company")
 
-    if st.button("Add Company", key="add_company"):
-        if company.strip():
+        if submit_button and company.strip():
             if len(st.session_state.selected_companies) >= 5:
                 st.warning("Maximum 5 companies can be added. Please remove some to add more.")
             elif company not in st.session_state.selected_companies:
@@ -57,23 +67,28 @@ with col1:
     if st.session_state.selected_companies:
         st.markdown("### Your Companies")
         for idx, company in enumerate(st.session_state.selected_companies):
-            col_btn, col_remove = st.columns([3, 1])
-            with col_btn:
-                if st.button(
-                    company,
-                    key=f"select_{idx}",
-                    use_container_width=True,
-                    type="primary" if company == st.session_state.current_company else "secondary"
-                ):
-                    st.session_state.current_company = company
-                    st.rerun()
-            with col_remove:
-                if st.button("❌", key=f"remove_{idx}"):
-                    st.session_state.selected_companies.pop(idx)
-                    if st.session_state.current_company == company:
-                        st.session_state.current_company = None
-                    st.success(f"Removed {company} from your watchlist!")
-                    st.rerun()
+            with st.container():
+                col_btn, col_remove = st.columns([4, 1])
+                with col_btn:
+                    if st.button(
+                        company,
+                        key=f"select_{idx}",
+                        use_container_width=True,
+                        type="primary" if company == st.session_state.current_company else "secondary"
+                    ):
+                        st.session_state.current_company = company
+                        st.rerun()
+                with col_remove:
+                    if st.button(
+                        "🗑",
+                        key=f"remove_{idx}",
+                        help=f"Remove {company}",
+                    ):
+                        st.session_state.selected_companies.pop(idx)
+                        if st.session_state.current_company == company:
+                            st.session_state.current_company = None
+                        st.success(f"Removed {company} from your watchlist!")
+                        st.rerun()
     else:
         st.info("Add companies to your watchlist to view their news")
 
