@@ -40,26 +40,23 @@
     box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
 }
 
-/* Button styling */
-.stButton button {
+/* Form styling */
+[data-testid="stForm"] {
+    background: white;
+    padding: 1rem;
     border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    margin: 0.25rem 0;
-    padding: 0.5rem 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Add Company button styling */
 [data-testid="stForm"] .stButton button {
     background-color: #f8f9fa;
     color: #1a237e;
     border: 1px solid #1a237e;
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
     height: 38px;
-    min-width: 200px;
+    min-width: 120px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 [data-testid="stForm"] .stButton button:hover {
@@ -76,7 +73,7 @@ button[kind="secondary"] {
     border: 1px solid #6c757d;
     font-size: 0.9rem;
     height: 38px;
-    min-width: 200px;
+    min-width: 120px;
 }
 
 button[kind="secondary"]:hover {
@@ -94,7 +91,7 @@ button[kind="secondary"]:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Company item container */
+/* Company container styling */
 [data-testid="column"]:first-child .stContainer {
     display: flex;
     align-items: center;
@@ -121,7 +118,6 @@ button[kind="secondary"]:hover {
     color: #dc3545;
     background: transparent;
     border: none;
-    margin-left: -10px;
 }
 
 [data-testid="column"] .stButton button[help]:hover {
@@ -150,6 +146,13 @@ button[kind="secondary"]:hover {
     border-radius: 8px;
 }
 
+/* Category selector styling */
+.stSelectbox select {
+    border-radius: 8px;
+    padding: 0.5rem;
+    border-color: #E0E0E0;
+}
+
 /* Alert/Info message styling */
 .stAlert {
     padding: 1rem;
@@ -170,19 +173,4 @@ a {
 a:hover {
     color: #0d47a1;
     text-decoration: underline;
-}
-
-/* Category selector styling */
-.stSelectbox select {
-    border-radius: 8px;
-    padding: 0.5rem;
-    border-color: #E0E0E0;
-}
-
-/* Form styling */
-[data-testid="stForm"] {
-    background: white;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
