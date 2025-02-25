@@ -53,8 +53,6 @@ with col1:
             elif company not in st.session_state.selected_companies:
                 st.session_state.selected_companies.append(company)
                 st.success(f"Added {company} to your watchlist!")
-                # Clear the input field
-                st.session_state.company_input = ""
                 st.rerun()
             else:
                 st.warning(f"{company} is already in your watchlist!")
@@ -65,37 +63,32 @@ with col1:
         st.success("Cleared all companies!")
         st.rerun()
 
-    # Display company list with attached dustbin icons
+    # Display company list with clickable buttons
     if st.session_state.selected_companies:
         st.markdown("### Your Companies")
         for idx, company in enumerate(st.session_state.selected_companies):
             with st.container():
-                # Using HTML for better control over button and icon layout
-                st.markdown(
-                    f"""
-                    <div class="company-container">
-                        <button class="company-button {'active' if company == st.session_state.current_company else ''}"
-                                onclick="parent.window.postMessage({{command: 'streamlit:setComponentValue', name: 'select_{idx}', value: true}}, '*')">
-                            {company}
-                        </button>
-                        <button class="delete-button" title="Remove {company}"
-                                onclick="parent.window.postMessage({{command: 'streamlit:setComponentValue', name: 'remove_{idx}', value: true}}, '*')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-                # Hidden buttons for handling clicks
-                if st.empty().button("Select", key=f"select_{idx}"):
-                    st.session_state.current_company = company
-                    st.rerun()
-                if st.empty().button("Remove", key=f"remove_{idx}"):
-                    st.session_state.selected_companies.pop(idx)
-                    if st.session_state.current_company == company:
-                        st.session_state.current_company = None
-                    st.success(f"Removed {company} from your watchlist!")
-                    st.rerun()
+                col_btn, col_remove = st.columns([4, 1])
+                with col_btn:
+                    if st.button(
+                        company,
+                        key=f"select_{idx}",
+                        use_container_width=True,
+                        type="primary" if company == st.session_state.current_company else "secondary"
+                    ):
+                        st.session_state.current_company = company
+                        st.rerun()
+                with col_remove:
+                    if st.button(
+                        "🗑",
+                        key=f"remove_{idx}",
+                        help=f"Remove {company}",
+                    ):
+                        st.session_state.selected_companies.pop(idx)
+                        if st.session_state.current_company == company:
+                            st.session_state.current_company = None
+                        st.success(f"Removed {company} from your watchlist!")
+                        st.rerun()
     else:
         st.info("Add companies to your watchlist to view their news")
 
