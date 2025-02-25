@@ -53,6 +53,8 @@ with col1:
             elif company not in st.session_state.selected_companies:
                 st.session_state.selected_companies.append(company)
                 st.success(f"Added {company} to your watchlist!")
+                # Clear the input field
+                st.session_state.company_input = ""
                 st.rerun()
             else:
                 st.warning(f"{company} is already in your watchlist!")
@@ -85,10 +87,10 @@ with col1:
                     unsafe_allow_html=True
                 )
                 # Hidden buttons for handling clicks
-                if st.button("", key=f"select_{idx}", label=company):
+                if st.empty().button("Select", key=f"select_{idx}"):
                     st.session_state.current_company = company
                     st.rerun()
-                if st.button("", key=f"remove_{idx}"):
+                if st.empty().button("Remove", key=f"remove_{idx}"):
                     st.session_state.selected_companies.pop(idx)
                     if st.session_state.current_company == company:
                         st.session_state.current_company = None
