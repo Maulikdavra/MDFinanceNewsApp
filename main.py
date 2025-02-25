@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from utils.news_fetcher import NewsFetcher
 from utils.ai_analyzer import AIAnalyzer
+from utils.stock_fetcher import StockFetcher
 
 # Page configuration
 st.set_page_config(
@@ -26,9 +27,9 @@ if 'current_company' not in st.session_state:
     st.session_state.current_company = None
 
 def init_classes():
-    return NewsFetcher(), AIAnalyzer()
+    return NewsFetcher(), AIAnalyzer(), StockFetcher()
 
-news_fetcher, ai_analyzer = init_classes()
+news_fetcher, ai_analyzer, stock_fetcher = init_classes()
 
 # Header
 st.markdown("""
@@ -90,13 +91,41 @@ with col1:
                             st.session_state.current_company = None
                         st.success(f"Removed {company} from your watchlist!")
                         st.rerun()
-
     else:
         st.info("Add companies to your watchlist to view their news")
 
-# Display news in the right column
+# Display news and stock information in the right column
 with col2:
     if st.session_state.current_company:
+        # Stock information section
+        try:
+            stock_data = stock_fetcher.get_stock_data(st.session_state.current_company)
+            if stock_data:
+                price_col, change_col, volume_col = st.columns(3)
+                with price_col:
+                    st.metric(
+                        "Current Price",
+                        f"${stock_data['price']:.2f}",
+                        f"{stock_data['change_percent']:.2f}%"
+                    )
+                with change_col:
+                    st.metric(
+                        "Change",
+                        f"${abs(stock_data['change']):.2f}",
+                        delta_color="normal"
+                    )
+                with volume_col:
+                    st.metric(
+                        "Volume",
+                        f"{stock_data['volume']:,}"
+                    )
+
+                # Stock price chart
+                if stock_data['history']:
+                    st.line_chart(pd.Series(stock_data['history']))
+        except Exception as e:
+            st.warning(f"Unable to fetch stock data: {str(e)}")
+
         st.markdown(f"### Latest News for {st.session_state.current_company}")
 
         # News category filter
