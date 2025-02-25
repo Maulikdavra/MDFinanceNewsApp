@@ -139,7 +139,7 @@ a:hover {
     color: #dc3545;
     background: transparent;
     border: none;
-    margin-left: -1rem;  /* Reduced from -0.5rem to -1rem */
+    margin-left: -1.5rem;  /* Further reduced spacing */
 }
 
 [data-testid="column"] .stButton button[help]:hover {
@@ -161,4 +161,16 @@ a:hover {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    [data-testid="column"] {
+        flex-direction: row !important;
+        align-items: center !important;
+    }
+
+    [data-testid="column"] .stButton {
+        margin: 0;
+    }
 }

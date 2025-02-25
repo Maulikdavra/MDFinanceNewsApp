@@ -68,8 +68,9 @@ with col1:
         st.markdown("### Your Companies")
         for idx, company in enumerate(st.session_state.selected_companies):
             with st.container():
-                col_btn, col_remove = st.columns([4, 1])
-                with col_btn:
+                # Use a wider ratio for the company button column to prevent wrapping
+                btn_col, remove_col = st.columns([6, 1])
+                with btn_col:
                     if st.button(
                         company,
                         key=f"select_{idx}",
@@ -78,7 +79,7 @@ with col1:
                     ):
                         st.session_state.current_company = company
                         st.rerun()
-                with col_remove:
+                with remove_col:
                     if st.button(
                         "🗑",
                         key=f"remove_{idx}",
