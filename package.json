@@ -12,6 +12,7 @@
   "dependencies": {
     "@mantine/core": "^7.17.0",
     "@mantine/hooks": "^7.17.0",
+    "@tabler/icons-react": "^3.30.0",
     "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.7.9",
     "chart.js": "^4.4.8",

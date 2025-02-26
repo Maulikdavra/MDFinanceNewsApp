@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, TextInput, Paper, Title, Stack } from '@mantine/core';
+import { Button, TextInput, Paper, Title, Stack, ActionIcon, Tooltip } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 export function CompanyList({ 
   companies, 
@@ -21,7 +22,7 @@ export function CompanyList({
   return (
     <Paper p="md" radius="md">
       <Title order={3}>Add Company</Title>
-      
+
       <form onSubmit={handleSubmit}>
         <Stack spacing="sm">
           <TextInput
@@ -48,15 +49,16 @@ export function CompanyList({
                 >
                   {company}
                 </Button>
-                <Button
-                  variant="subtle"
-                  color="red"
-                  compact
-                  onClick={() => onRemoveCompany(company)}
-                  title={`Remove ${company}`}
-                >
-                  🗑
-                </Button>
+                <Tooltip label={`Remove ${company}`} position="right">
+                  <ActionIcon
+                    variant="subtle"
+                    color="red"
+                    onClick={() => onRemoveCompany(company)}
+                    size="lg"
+                  >
+                    <IconTrash size="1.2rem" />
+                  </ActionIcon>
+                </Tooltip>
               </div>
             ))}
           </Stack>
