@@ -11,7 +11,14 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true
       }
-    }
+    },
+    hmr: {
+      clientPort: 443
+    },
+    allowedHosts: [
+      '.replit.dev',
+      '.repl.co'
+    ]
   },
   build: {
     outDir: 'dist',
