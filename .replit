@@ -5,7 +5,7 @@ channel = "stable-24_05"
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["sh", "-c", "npx concurrently \"npx vite build && npx vite\" \"python server.py\""]
+run = ["sh", "-c", "npx vite build && FLASK_APP=server.py python3 -m flask run --host=0.0.0.0 --port=5000"]
 
 [workflows]
 runButton = "Project"
@@ -31,7 +31,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npx concurrently \"npx vite build && npx vite\" \"python server.py\""
+args = "npx vite build && FLASK_APP=server.py python3 -m flask run --host=0.0.0.0 --port=5000"
 waitForPort = 5000
 
 [[ports]]

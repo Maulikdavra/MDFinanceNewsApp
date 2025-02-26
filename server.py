@@ -46,4 +46,5 @@ def serve(path):
 if __name__ == '__main__':
     # Kill any existing process on port 5000
     os.system('fuser -k 5000/tcp >/dev/null 2>&1 || true')
-    app.run(host='0.0.0.0', port=5000)
+    # Ensure the server is accessible from outside
+    app.run(host='0.0.0.0', port=5000, debug=False)
