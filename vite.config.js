@@ -17,7 +17,8 @@ export default defineConfig({
     },
     allowedHosts: [
       '.replit.dev',
-      '.repl.co'
+      '.repl.co',
+      'ai-assistant-maulikdavra06.replit.app'
     ]
   },
   build: {
