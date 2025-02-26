@@ -34,12 +34,13 @@ def get_stock(company):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Serve static files from the dist directory
+# Serve React app - this needs to be after API routes
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
     if path and os.path.exists(os.path.join(app.static_folder, path)):
         return send_from_directory(app.static_folder, path)
+    # Always return index.html for any unknown routes (client-side routing)
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
