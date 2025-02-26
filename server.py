@@ -34,7 +34,7 @@ def get_stock(company):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Serve React app - this needs to be after API routes
+# Serve static files from the dist directory
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
